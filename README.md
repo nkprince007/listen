@@ -1,10 +1,13 @@
-# Listen Service
+# listen
 
-This is the Listen service
+[![pipeline status](https://gitlab.com/nkprince007/listen/badges/master/pipeline.svg)](https://gitlab.com/nkprince007/listen/commits/master)
 
-Generated with
+A simple go-micro web service that listens to incoming webhooks and sends out
+events over specified topics.
 
-```
+Auto-generated with
+
+```sh
 micro new gitlab.com/nkprince007/listen --namespace=go.micro --type=web
 ```
 
@@ -24,7 +27,7 @@ micro new gitlab.com/nkprince007/listen --namespace=go.micro --type=web
 
 Micro services depend on service discovery. The default is consul.
 
-```
+```sh
 # install consul
 brew install consul
 
@@ -38,16 +41,18 @@ A Makefile is included for convenience
 
 Build the binary
 
-```
+```sh
 make build
 ```
 
 Run the service
-```
-./listen-web
+
+```sh
+./listen
 ```
 
 Build a docker image
-```
+
+```sh
 make docker
 ```
