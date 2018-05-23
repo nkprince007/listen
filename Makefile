@@ -11,4 +11,4 @@ test:
 	go test -v ./... -cover
 
 docker:
-	docker build . -t listen-web:latest
+	docker build . -t registry.gitlab.com/nkprince007/listen:latest

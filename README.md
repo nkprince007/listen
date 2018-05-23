@@ -56,3 +56,11 @@ Build a docker image
 ```sh
 make docker
 ```
+
+### With docker compose
+
+Build the docker-compose network
+
+```sh
+docker-compose up -d
+```
