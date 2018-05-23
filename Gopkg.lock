@@ -85,6 +85,12 @@
   version = "v0.8.0"
 
 [[projects]]
+  name = "github.com/micro/go-plugins"
+  packages = ["broker/rabbitmq"]
+  revision = "d220b91b5d89463c86a5bd12435bd34f3f8369a3"
+  version = "v0.10.1"
+
+[[projects]]
   branch = "master"
   name = "github.com/micro/go-rcache"
   packages = ["."]
@@ -138,6 +144,12 @@
   revision = "bb74f1db0675b241733089d5a1faa5dd8b0ef57b"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/nu7hatch/gouuid"
+  packages = ["."]
+  revision = "179d4d0c4d8d407a32af483c2354df1d2c91e6c3"
+
+[[projects]]
   name = "github.com/pborman/uuid"
   packages = ["."]
   revision = "e790cca94e6cc75c7064b1332e63811d4aae1a53"
@@ -148,6 +160,12 @@
   packages = ["."]
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
   version = "v0.8.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/streadway/amqp"
+  packages = ["."]
+  revision = "8e4aba63da9fc5571e01c6a45dc809a58cbc5a68"
 
 [[projects]]
   branch = "master"
@@ -174,6 +192,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "fbd4bfd4bfdf72a48214143fee4095391df9fcc920dece233fe8decfd83d3397"
+  inputs-digest = "1d90afed739d5252579e1372c64c5867c61dee51c8716d0cf47260ac771b9a66"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  consul:
+    # Consul will be used to manage service discovery
+    image: progrium/consul:latest
+    hostname: consul
+    command: -server -bootstrap -rejoin
+    ports:
+      - "8300:8300"
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:53/udp"
+  rabbit:
+    # rabbitmq will be used as message broker to interact with other services
+    image: rabbitmq:management
+    hostname: rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=password
+  listen:
+    # listen is the actual listener service
+    command: /bin/sh -c "sleep 5; ./app;"
+    image: registry.gitlab.com/nkprince007/listen:latest
+    # build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - MICRO_REGISTRY=consul
+      - MICRO_REGISTRY_ADDRESS=consul
+      - MICRO_BROKER=rabbitmq
+      - MICRO_BROKER_ADDRESS=amqp://admin:password@rabbit:5672
+    links:
+      - consul
+      - rabbit
