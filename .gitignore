@@ -1,1 +1,4 @@
 listen
+
+# ignore vendored dependencies from go dep tool
+vendor
