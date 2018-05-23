@@ -1,13 +1,18 @@
-FROM golang:onbuild
+FROM golang:alpine as build-env
 LABEL MAINTAINER Naveen Kumar Sangi <naveenkumarsangi@protonmail.com>
-ENV SOURCE /go/src/gitlab.com/nkprince007/listen/
+
+RUN apk --no-cache add curl git
+RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+ENV SOURCE /go/src/app
 ADD . $SOURCE
-RUN go get -u -v .
 WORKDIR $SOURCE
+RUN dep ensure -v
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o app .
 
+
 FROM alpine:latest
+
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
-COPY --from=0 /go/src/gitlab.com/nkprince007/listen/app .
+COPY --from=build-env /go/src/app .
 CMD ["./app"]
