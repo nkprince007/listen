@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 
 	_ "github.com/micro/go-plugins/broker/rabbitmq"
@@ -18,6 +19,16 @@ func getEnv(key string, fallback string) string {
 }
 
 func main() {
+	fmt.Print(`
+        ___      __
+       / (_)____/ /____  ____
+      / / / ___/ __/ _ \/ __ \
+     / / (__  ) /_/  __/ / / /
+    /_/_/____/\__/\___/_/ /_/  server catches webhooks :P
+
+
+`)
+
 	// grab port from environment
 	port := getEnv("PORT", "8000")
 
