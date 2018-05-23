@@ -1,11 +1,14 @@
 
 GOPATH:=$(shell go env GOPATH)
 
-.PHONY: proto test docker
+.PHONY: test docker run build
 
 
 build:
 	go build -o listen
+
+run: build
+	MICRO_SERVER_ADDRESS=:8000 ./listen
 
 test:
 	go test -v ./... -cover

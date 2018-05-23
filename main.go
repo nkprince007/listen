@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
 
 	_ "github.com/micro/go-plugins/broker/rabbitmq"
 
@@ -10,13 +9,6 @@ import (
 	"github.com/micro/go-web"
 	"gitlab.com/nkprince007/listen/handler"
 )
-
-func getEnv(key string, fallback string) string {
-	if value, ok := os.LookupEnv(key); ok {
-		return value
-	}
-	return fallback
-}
 
 func main() {
 	fmt.Print(`
@@ -28,15 +20,10 @@ func main() {
 
 
 `)
-
-	// grab port from environment
-	port := getEnv("PORT", "8000")
-
 	// create new web service
 	service := web.NewService(
 		web.Name("go.micro.web.listen"),
 		web.Version("latest"),
-		web.Address(":"+port),
 	)
 
 	// register call handler
