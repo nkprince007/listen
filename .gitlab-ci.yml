@@ -10,6 +10,7 @@ build-master:
   stage: build
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
+    - docker run -it --rm "$CI_REGISTRY_NAME" go test -v ./... cover
     - docker push "$CI_REGISTRY_IMAGE"
   only:
     - master
