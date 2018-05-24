@@ -36,3 +36,5 @@ test:
     - go get -v ./...
     - go test -v ./... -cover
     - mv ../listen $OLDPATH
+  except:
+    - master
