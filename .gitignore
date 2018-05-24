@@ -1,4 +1,5 @@
 listen
+coverage.out
 
 # ignore vendored dependencies from go dep tool
 vendor

@@ -27,7 +27,7 @@ func main() {
 	)
 
 	// register call handler
-	service.HandleFunc("/", handler.Echo)
+	service.HandleFunc("/", handler.Capture)
 
 	// initialise service
 	if err := service.Init(); err != nil {
