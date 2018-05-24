@@ -31,8 +31,8 @@ services:
       - RABBITMQ_DEFAULT_PASS=password
   listen:
     # listen is the actual listener service
-    command: /bin/sh -c "sleep 5; ./app;"
-    image: registry.gitlab.com/nkprince007/listen:latest
+    command: /bin/sh -c "sleep 5; ./listen;"
+    image: registry.gitlab.com/nkprince007/listen:docker
     ports:
       - 80
     environment:
