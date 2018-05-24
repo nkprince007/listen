@@ -10,7 +10,6 @@ build-master:
   stage: build
   script:
     - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-    - docker run -it --rm "$CI_REGISTRY_NAME" go test -v ./... cover
     - docker push "$CI_REGISTRY_IMAGE"
   only:
     - master
@@ -22,3 +21,18 @@ build:
     - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
   except:
     - master
+
+test:
+  image: golang:alpine
+  stage: build
+  before_script:
+    - apk --no-cache add git
+    - export OLDPATH=$(readlink -f ..)
+    - export SOURCE=/go/src/gitlab.com/nkprince007
+    - mkdir -p $SOURCE && cd $SOURCE
+    - mv $OLDPATH/listen .
+    - cd $SOURCE/listen
+  script:
+    - go get -v ./...
+    - go test -v ./... -cover
+    - mv ../listen $OLDPATH
