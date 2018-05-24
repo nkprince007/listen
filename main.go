@@ -3,8 +3,6 @@ package main
 import (
 	"fmt"
 
-	_ "github.com/micro/go-plugins/broker/rabbitmq"
-
 	"github.com/micro/go-log"
 	"github.com/micro/go-web"
 	"gitlab.com/nkprince007/listen/handler"

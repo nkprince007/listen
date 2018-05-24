@@ -5,7 +5,7 @@ GOPATH:=$(shell go env GOPATH)
 
 
 build:
-	go build -o listen
+	go build -o listen main.go
 
 run: build
 	MICRO_SERVER_ADDRESS=:8000 ./listen

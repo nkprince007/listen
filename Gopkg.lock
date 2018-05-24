@@ -174,7 +174,7 @@
     "ed25519",
     "ed25519/internal/edwards25519"
   ]
-  revision = "1a580b3eff7814fc9b40602fd35256c63b50f491"
+  revision = "159ae71589f303f9fbfd7528413e0fe944b9c1cb"
 
 [[projects]]
   branch = "master"
@@ -187,7 +187,7 @@
     "ipv4",
     "ipv6"
   ]
-  revision = "9ef9f5bb98a1fdc41f8cf6c250a4404b4085e389"
+  revision = "dfa909b99c79129e1100513e5cd36307665e5723"
 
 [solve-meta]
   analyzer-name = "dep"
