@@ -1,4 +1,4 @@
-package handler_test
+package main
 
 import (
 	"bytes"
@@ -10,8 +10,6 @@ import (
 	"os"
 	"syscall"
 	"testing"
-
-	"gitlab.com/nkprince007/listen/handler"
 )
 
 func generateGhSign(secret string, body []byte) string {
@@ -21,7 +19,7 @@ func generateGhSign(secret string, body []byte) string {
 }
 
 func TestCaptureWrongMethod(t *testing.T) {
-	var ts = httptest.NewServer(http.HandlerFunc(handler.Capture))
+	var ts = httptest.NewServer(http.HandlerFunc(Capture))
 	defer ts.Close()
 
 	res, err := http.Get(ts.URL)
@@ -36,7 +34,7 @@ func TestCaptureWrongMethod(t *testing.T) {
 }
 
 func TestNoMatchingProvider(t *testing.T) {
-	var ts = httptest.NewServer(http.HandlerFunc(handler.Capture))
+	var ts = httptest.NewServer(http.HandlerFunc(Capture))
 	defer ts.Close()
 
 	// no explicit X-*-Event header has been set on request
@@ -65,7 +63,7 @@ func TestGitHubSignatureVerification(t *testing.T) {
 	reqBody := []byte("{}")
 	sign := generateGhSign("secret", reqBody)
 
-	var ts = httptest.NewServer(http.HandlerFunc(handler.Capture))
+	var ts = httptest.NewServer(http.HandlerFunc(Capture))
 	defer ts.Close()
 
 	data := bytes.NewBuffer(reqBody)
@@ -118,7 +116,7 @@ func TestGitLabSignatureVerification(t *testing.T) {
 	}()
 
 	reqBody := []byte("{}")
-	var ts = httptest.NewServer(http.HandlerFunc(handler.Capture))
+	var ts = httptest.NewServer(http.HandlerFunc(Capture))
 	defer ts.Close()
 
 	data := bytes.NewBuffer(reqBody)
@@ -175,7 +173,7 @@ func TestNoSignatureVerification(t *testing.T) {
 		}
 	}()
 
-	var ts = httptest.NewServer(http.HandlerFunc(handler.Capture))
+	var ts = httptest.NewServer(http.HandlerFunc(Capture))
 	defer ts.Close()
 
 	data := bytes.NewBuffer([]byte("{}"))

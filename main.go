@@ -5,7 +5,6 @@ import (
 
 	"github.com/micro/go-log"
 	"github.com/micro/go-web"
-	"gitlab.com/nkprince007/listen/handler"
 )
 
 func main() {
@@ -25,7 +24,7 @@ func main() {
 	)
 
 	// register call handler
-	service.HandleFunc("/", handler.Capture)
+	service.HandleFunc("/", Capture)
 
 	// initialise service
 	if err := service.Init(); err != nil {
