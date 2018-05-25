@@ -19,7 +19,7 @@ func main() {
 `)
 	// create new web service
 	service := web.NewService(
-		web.Name("go.micro.web.listen"),
+		web.Name("gitmate.micro.web.listen"),
 		web.Version("latest"),
 	)
 

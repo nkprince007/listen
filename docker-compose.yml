@@ -32,7 +32,7 @@ services:
   listen:
     # listen is the actual listener service
     command: /bin/sh -c "sleep 5; ./listen;"
-    image: registry.gitlab.com/nkprince007/listen
+    image: registry.gitlab.com/gitmate-micro/listen
     build: .
     ports:
       - 80

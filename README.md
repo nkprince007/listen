@@ -1,6 +1,6 @@
 # listen
 
-[![pipeline status](https://gitlab.com/nkprince007/listen/badges/master/pipeline.svg)](https://gitlab.com/nkprince007/listen/commits/master)
+[![pipeline status](https://gitlab.com/gitmate-micro/listen/badges/master/pipeline.svg)](https://gitlab.com/gitmate-micro/listen/commits/master)
 
 A simple go-micro web service that listens to incoming webhooks and sends out
 events over specified topics.
@@ -8,7 +8,7 @@ events over specified topics.
 Auto-generated with
 
 ```sh
-micro new gitlab.com/nkprince007/listen --namespace=go.micro --type=web
+micro new gitlab.com/gitmate-micro/listen --namespace=gitmate.micro --type=web
 ```
 
 ## Getting Started
@@ -19,7 +19,7 @@ micro new gitlab.com/nkprince007/listen --namespace=go.micro --type=web
 
 ## Configuration
 
-- FQDN: go.micro.web.listen
+- FQDN: gitmate.micro.web.listen
 - Type: web
 - Alias: listen
 

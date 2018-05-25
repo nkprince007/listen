@@ -15,4 +15,4 @@ test:
 	go tool cover -html=coverage.out
 
 docker:
-	docker build . -t registry.gitlab.com/nkprince007/listen:latest
+	docker build . -t registry.gitlab.com/gitmate-micro/listen:latest

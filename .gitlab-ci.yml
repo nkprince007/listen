@@ -28,7 +28,7 @@ test:
   before_script:
     - apk --no-cache add git
     - export OLDPATH=$(readlink -f ..)
-    - export SOURCE=/go/src/gitlab.com/nkprince007
+    - export SOURCE=/go/src/gitlab.com/gitlab-micro/listen
     - mkdir -p $SOURCE && cd $SOURCE
     - mv $OLDPATH/listen .
     - cd $SOURCE/listen
