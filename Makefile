@@ -16,3 +16,6 @@ test:
 
 docker:
 	docker build . -t registry.gitlab.com/gitmate-micro/listen:latest
+
+run-docker:
+	docker run -d -p 8000:8000 registry.gitlab.com/gitmate-micro/listen:latest

@@ -64,3 +64,18 @@ Build the docker-compose network
 ```sh
 docker-compose up -d
 ```
+
+## Images / Container Registry
+
+For released images, please visit the GitLab Container Registy for this
+repository [here](https://gitlab.com/gitmate-micro/listen/container_registry).
+
+To run the latest image, pull it with docker
+
+```sh
+# login to gitlab container registry with your credentials
+docker login registry.gitlab.com
+
+# run the container locally exposing port 8000
+make run-docker
+```
