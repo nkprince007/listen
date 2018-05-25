@@ -1,6 +1,7 @@
 # listen
 
 [![pipeline status](https://gitlab.com/gitmate-micro/listen/badges/master/pipeline.svg)](https://gitlab.com/gitmate-micro/listen/commits/master)
+[![travis-ci build status](https://travis-ci.com/nkprince007/listen.svg?branch=master)](https://travis-ci.com/nkprince007/listen)
 
 A simple go-micro web service that listens to incoming webhooks and sends out
 events over specified topics.
