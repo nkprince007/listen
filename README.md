@@ -58,14 +58,6 @@ Build a docker image
 make docker
 ```
 
-### With docker compose
-
-Build the docker-compose network
-
-```sh
-docker-compose up -d
-```
-
 ## Releases
 
 The binaries built are delivered via [TravisCI](https://travis-ci.com) using
