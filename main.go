@@ -1,7 +1,11 @@
+//+build !test
+
 package main
 
 import (
 	"fmt"
+
+	"gitlab.com/gitmate-micro/listen/provider"
 
 	"github.com/micro/go-log"
 	"github.com/micro/go-web"
@@ -23,8 +27,12 @@ func main() {
 		web.Version("latest"),
 	)
 
-	// register call handler
-	service.HandleFunc("/", Capture)
+	github := &provider.GitHub{}
+	gitlab := &provider.GitLab{}
+
+	// register call handlers
+	service.HandleFunc("/github", RejectOtherMethods("POST", github))
+	service.HandleFunc("/gitlab", RejectOtherMethods("POST", gitlab))
 
 	// initialise service
 	if err := service.Init(); err != nil {

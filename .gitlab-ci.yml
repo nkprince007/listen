@@ -34,7 +34,7 @@ test:
     - cd $SOURCE/listen
   script:
     - go get -v ./...
-    - go test -v ./... -cover
+    - go test -v -cover -tags test ./...
     - mv ../listen $OLDPATH
   except:
     - master

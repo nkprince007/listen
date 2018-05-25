@@ -5,13 +5,13 @@ GOPATH:=$(shell go env GOPATH)
 
 
 build:
-	go build -o listen main.go
+	go build -o listen
 
 run: build
 	MICRO_SERVER_ADDRESS=:8000 ./listen
 
 test:
-	go test -v ./... -cover -coverprofile=coverage.out
+	go test -v -cover -tags test ./... -coverprofile=coverage.out
 	go tool cover -html=coverage.out
 
 docker:

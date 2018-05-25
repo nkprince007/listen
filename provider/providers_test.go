@@ -1,4 +1,4 @@
-package main
+package provider_test
 
 import (
 	"bytes"
@@ -8,45 +8,48 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"syscall"
 	"testing"
+
+	"gitlab.com/gitmate-micro/listen/provider"
 )
 
-func generateGhSign(secret string, body []byte) string {
-	hash := hmac.New(sha1.New, []byte(secret))
-	hash.Write(body)
-	return hex.EncodeToString(hash.Sum(nil))
+func TestNames(t *testing.T) {
+	gh, gl := provider.GitHub{}, provider.GitLab{}
+	if gh.Name() != "github" {
+		t.Error("GitHub provider does not have correct name.")
+	}
+	if gl.Name() != "gitlab" {
+		t.Error("GitHub provider does not have correct name.")
+	}
 }
 
-func TestCaptureWrongMethod(t *testing.T) {
-	var ts = httptest.NewServer(http.HandlerFunc(Capture))
+func TestGitHubInvalidRequestFormat(t *testing.T) {
+	var ts = httptest.NewServer(&provider.GitHub{})
 	defer ts.Close()
 
-	res, err := http.Get(ts.URL)
+	rsp, err := http.Post(ts.URL, "application/json", nil)
 	if err != nil {
 		t.Error(err)
 	}
 
-	if res.StatusCode != http.StatusMethodNotAllowed {
-		t.Error(res.Status)
-		t.Error("methods other than post should be rejected")
+	if rsp.StatusCode != http.StatusBadRequest {
+		t.Error(rsp.Status)
+		t.Error("invalid data is accepted!?")
 	}
 }
 
-func TestNoMatchingProvider(t *testing.T) {
-	var ts = httptest.NewServer(http.HandlerFunc(Capture))
+func TestGitLabInvalidRequestFormat(t *testing.T) {
+	var ts = httptest.NewServer(&provider.GitLab{})
 	defer ts.Close()
 
-	// no explicit X-*-Event header has been set on request
-	data := bytes.NewBuffer([]byte("{}"))
-	res, err := http.Post(ts.URL, "application/json", data)
+	rsp, err := http.Post(ts.URL, "application/json", nil)
 	if err != nil {
 		t.Error(err)
 	}
 
-	if res.StatusCode != http.StatusBadRequest {
-		t.Error(res.Status)
-		t.Error("matching provider should not be found")
+	if rsp.StatusCode != http.StatusBadRequest {
+		t.Error(rsp.Status)
+		t.Error("invalid data is accepted!?")
 	}
 }
 
@@ -61,9 +64,11 @@ func TestGitHubSignatureVerification(t *testing.T) {
 	}()
 
 	reqBody := []byte("{}")
-	sign := generateGhSign("secret", reqBody)
+	hash := hmac.New(sha1.New, []byte("secret"))
+	hash.Write(reqBody)
+	sign := hex.EncodeToString(hash.Sum(nil))
 
-	var ts = httptest.NewServer(http.HandlerFunc(Capture))
+	var ts = httptest.NewServer(&provider.GitHub{})
 	defer ts.Close()
 
 	data := bytes.NewBuffer(reqBody)
@@ -87,6 +92,7 @@ func TestGitHubSignatureVerification(t *testing.T) {
 	}
 
 	// failed signature verification
+	data = bytes.NewBuffer(reqBody)
 	req, err = http.NewRequest("POST", ts.URL, data)
 	if err != nil {
 		t.Error(err)
@@ -116,12 +122,11 @@ func TestGitLabSignatureVerification(t *testing.T) {
 	}()
 
 	reqBody := []byte("{}")
-	var ts = httptest.NewServer(http.HandlerFunc(Capture))
+	var ts = httptest.NewServer(&provider.GitLab{})
 	defer ts.Close()
 
-	data := bytes.NewBuffer(reqBody)
-
 	// pass signature verification
+	data := bytes.NewBuffer(reqBody)
 	req, err := http.NewRequest("POST", ts.URL, data)
 	if err != nil {
 		t.Error(err)
@@ -140,6 +145,7 @@ func TestGitLabSignatureVerification(t *testing.T) {
 	}
 
 	// failed signature verification
+	data = bytes.NewBuffer(reqBody)
 	req, err = http.NewRequest("POST", ts.URL, data)
 	if err != nil {
 		t.Error(err)
@@ -155,60 +161,5 @@ func TestGitLabSignatureVerification(t *testing.T) {
 	if res.StatusCode != http.StatusForbidden {
 		t.Error(res.Status)
 		t.Error("gitlab signature match failed, but still forwarded")
-	}
-}
-
-func TestNoSignatureVerification(t *testing.T) {
-	oldGhSecret := os.Getenv("GITHUB_SECRET")
-	oldGlSecret := os.Getenv("GITLAB_SECRET")
-	syscall.Unsetenv("GITHUB_SECRET")
-	syscall.Unsetenv("GITLAB_SECRET")
-
-	defer func() {
-		if oldGhSecret != "" {
-			os.Setenv("GITHUB_SECRET", oldGhSecret)
-		}
-		if oldGlSecret != "" {
-			os.Setenv("GITLAB_SECRET", oldGlSecret)
-		}
-	}()
-
-	var ts = httptest.NewServer(http.HandlerFunc(Capture))
-	defer ts.Close()
-
-	data := bytes.NewBuffer([]byte("{}"))
-
-	// GitHub
-	req, err := http.NewRequest("POST", ts.URL, data)
-	if err != nil {
-		t.Error(err)
-	}
-	req.Header.Add("X-GitHub-Event", "ping")
-
-	res, err := ts.Client().Do(req)
-	if err != nil {
-		t.Error(err)
-	}
-
-	if res.StatusCode != http.StatusOK {
-		t.Error(res.Status)
-		t.Error("github signature verification disabled, but still rejected")
-	}
-
-	// GitLab
-	req, err = http.NewRequest("POST", ts.URL, data)
-	if err != nil {
-		t.Error(err)
-	}
-	req.Header.Add("X-Gitlab-Event", "ping")
-
-	res, err = ts.Client().Do(req)
-	if err != nil {
-		t.Error(err)
-	}
-
-	if res.StatusCode != http.StatusOK {
-		t.Error(res.Status)
-		t.Error("gitlab signature verification disabled, but still rejected")
 	}
 }
