@@ -66,6 +66,12 @@ Build the docker-compose network
 docker-compose up -d
 ```
 
+## Releases
+
+The binaries built are delivered via [TravisCI](https://travis-ci.com) using
+[goreleaser](https://goreleaser.com). Latest releases are available
+[here](https://github.com/nkprince007/listen/releases).
+
 ## Images / Container Registry
 
 For released images, please visit the GitLab Container Registy for this
